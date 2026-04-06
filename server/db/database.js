@@ -1,28 +1,19 @@
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const path = require('path');
 
 const DB_PATH = path.join(__dirname, 'buycars.db');
+const db = new Database(DB_PATH);
 
-const db = new sqlite3.Database(DB_PATH, (err) => {
-  if (err) {
-    console.error('Error connecting to database:', err.message);
-  } else {
-    console.log('Connected to SQLite database');
-  }
-});
-
-db.serialize(() => {
-  // Users table
-  db.run(`CREATE TABLE IF NOT EXISTS users (
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )`);
+  );
 
-  // OEM Specs table
-  db.run(`CREATE TABLE IF NOT EXISTS oem_specs (
+  CREATE TABLE IF NOT EXISTS oem_specs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     brand TEXT NOT NULL,
     model TEXT NOT NULL,
@@ -32,10 +23,9 @@ db.serialize(() => {
     mileage_kmpl REAL NOT NULL,
     power_bhp REAL NOT NULL,
     max_speed_kmph INTEGER NOT NULL
-  )`);
+  );
 
-  // Marketplace Inventory table
-  db.run(`CREATE TABLE IF NOT EXISTS marketplace_inventory (
+  CREATE TABLE IF NOT EXISTS marketplace_inventory (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     dealer_id INTEGER NOT NULL,
     oem_spec_id INTEGER,
@@ -53,7 +43,8 @@ db.serialize(() => {
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (dealer_id) REFERENCES users(id),
     FOREIGN KEY (oem_spec_id) REFERENCES oem_specs(id)
-  )`);
-});
+  );
+`);
 
+console.log('Connected to SQLite database');
 module.exports = db;
