@@ -14,7 +14,7 @@ function ManageCars() {
     setCars(data.results);
   };
 
-  useEffect(() => { fetchCars(); }, []);
+  useEffect(() => { fetchCars(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleSelect = (id) =>
     setSelected(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);

@@ -141,7 +141,7 @@ function AddCar() {
               <label>Major Scratches</label>
               <div className="toggle-group">
                 {['No', 'Yes'].map((opt, i) => (
-                  <div key={i} className={`toggle-option ${form.major_scratches == i ? 'active' : ''}`}
+                  <div key={i} className={`toggle-option ${form.major_scratches === i ? 'active' : ''}`}
                     onClick={() => setForm({ ...form, major_scratches: i })}>{opt}</div>
                 ))}
               </div>
@@ -150,7 +150,7 @@ function AddCar() {
               <label>Original Paint</label>
               <div className="toggle-group">
                 {['No', 'Yes'].map((opt, i) => (
-                  <div key={i} className={`toggle-option ${form.original_paint == i ? 'active' : ''}`}
+                  <div key={i} className={`toggle-option ${form.original_paint === i ? 'active' : ''}`}
                     onClick={() => setForm({ ...form, original_paint: i })}>{opt}</div>
                 ))}
               </div>
